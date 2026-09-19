@@ -9,11 +9,25 @@
     {% assign head_phone = '/collections/head-phone' %}
   </head>
 
-  <body>
+  <body class="ps-body">
     <!-- NAVBAR -->
     <nav class="ps-navbar">
       <a href="/" class="ps-brand-logo">ModernShop</a>
-      <ul class="ps-nav-menu">
+
+      <button
+        type="button"
+        class="ps-nav-toggle"
+        id="ps-nav-toggle"
+        aria-label="Toggle navigation"
+        aria-expanded="false"
+        aria-controls="ps-nav-menu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <ul class="ps-nav-menu" id="ps-nav-menu">
         <li><a href="/" class="ps-nav-link {% if request.page_type == 'index' %} ps-active{% endif %}">Home</a></li>
 
         <li>
@@ -46,6 +60,15 @@
         🛒 <span class="ps-cart-badge" id="ps-cart-count">{{ cart.item_count }}</span>
       </a>
     </nav>
+
+    <script>
+      document.getElementById('ps-nav-toggle').addEventListener('click', function () {
+        var menu = document.getElementById('ps-nav-menu');
+        var isOpen = menu.classList.toggle('ps-nav-menu-open');
+        this.classList.toggle('ps-nav-toggle-open', isOpen);
+        this.setAttribute('aria-expanded', isOpen);
+      });
+    </script>
 
     {{ content_for_layout }}
 
