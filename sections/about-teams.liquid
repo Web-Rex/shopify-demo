@@ -1,0 +1,92 @@
+<section class="ab-team-section">
+  <h2 class="ab-section-title">{{ section.settings.heading }}</h2>
+  <div class="ab-team-grid">
+    {% for block in section.blocks %}
+      <div class="ab-team-card" {{ block.shopify_attributes }}>
+        {% if block.settings.photo %}
+          <img
+            {% comment %} src="{{ block.settings.photo | image_url: width: 400 }}" | { "type": image_picker } {% endcomment %}
+            src="{{ block.settings.photo }}"
+            alt="{{ block.settings.name }}"
+            class="ab-team-photo"
+          >
+        {% endif %}
+        <div class="ab-team-info">
+          <h3 class="ab-team-name">{{ block.settings.name }}</h3>
+          <span class="ab-team-role">{{ block.settings.role }}</span>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About Team",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Meet Our Leadership"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "team_member",
+      "name": "Team Member",
+      "settings": [
+        {
+          "type": "url",
+          "id": "photo",
+          "label": "Photo URL"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Team Member"
+        },
+        {
+          "type": "text",
+          "id": "role",
+          "label": "Role",
+          "default": "Role"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "default": {
+    "settings": {
+      "heading": "Meet Our Leadership"
+    },
+    "blocks": [
+      {
+        "type": "team_member",
+        "settings": {
+          "name": "Sarah Jenkins",
+          "role": "Founder & CEO",
+          "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80"
+        }
+      },
+      {
+        "type": "team_member",
+        "settings": {
+          "name": "David Chen",
+          "role": "Head of Design",
+          "photo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80"
+        }
+      },
+      {
+        "type": "team_member",
+        "settings": {
+          "name": "Elena Rostova",
+          "role": "Operations Lead",
+          "photo": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80"
+        }
+      }
+    ]
+  }
+}
+{% endschema %}

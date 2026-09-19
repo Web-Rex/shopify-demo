@@ -1,0 +1,13 @@
+<div class="gift-card">
+  <h1>{{ shop.name }} Gift Card</h1>
+
+  <p>Value: {{ gift_card.initial_value | money }}</p>
+  <p>Remaining balance: {{ gift_card.balance | money }}</p>
+  <p>Code: {{ gift_card.code }}</p>
+
+  {% if gift_card.enabled != true or gift_card.expired %}
+    <p>This gift card is no longer active.</p>
+  {% endif %}
+
+  {{ gift_card.qr_code_svg_tag }}
+</div>

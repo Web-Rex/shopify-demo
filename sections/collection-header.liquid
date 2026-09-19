@@ -1,0 +1,25 @@
+<header class="ps-page-banner">
+  <h1 class="ps-banner-title">{{ collection.title }}</h1>
+  <p class="ps-banner-subtitle">
+    {% if collection.description != blank %}
+      {{ collection.description }}
+    {% else %}
+      {{ section.settings.default_subheading }}
+    {% endif %}
+  </p>
+</header>
+
+{% schema %}
+{
+  "name": "Collection Header",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "default_subheading",
+      "label": "Default subheading",
+      "info": "Shown only when a collection has no description set on its admin page.",
+      "default": "Explore our complete inventory of top-rated tech and accessories."
+    }
+  ]
+}
+{% endschema %}

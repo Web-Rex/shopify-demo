@@ -1,0 +1,15 @@
+shopify theme dev --store=test-store-wztv7j3i
+password: lohbre
+
+bublish/push-update: shopify theme push
+update: shopify theme push --unpublished
+
+To skip that prompt entirely and always target the same theme directly:
+[ ]: shopify theme list
+[ ]: shopify theme push --theme <theme-id> [ ]: shopify theme push --theme 150533570669
+[ ]: shopify theme dev --theme <theme-id>
+
+NPM
+npm init -y
+npm install swiper
+npm install && npm install -D vite

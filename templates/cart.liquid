@@ -1,0 +1,129 @@
+<section style="min-height: 80vh">
+  <!-- PAGE BANNER -->
+  <header class="cart-page-banner">
+    <h1 class="cart-banner-title">Your Shopping Cart</h1>
+  </header>
+
+  {% if cart.item_count == 0 %}
+    <!-- EMPTY CART STATE -->
+    <div class="cart-empty-message" id="cart-empty-notice">
+      <h3>Your cart is empty</h3>
+      <p>Looks like you haven't added any items to your cart yet.</p>
+      <a
+        href="/collections/all"
+        style="display: inline-block; background: var(--cart-primary); color: white; padding: 0.6rem 1.2rem; border-radius: 4px; text-decoration: none; font-weight: 600;"
+        >Browse Products</a
+      >
+    </div>
+  {% else %}
+    {% form 'cart', cart %}
+      <!-- MAIN CART CONTENT -->
+      <div class="cart-container">
+        <!-- LEFT: ITEMS LIST -->
+        <div class="cart-items-wrapper">
+          <div class="cart-table-header">
+            <span>Product</span>
+            <span>Price</span>
+            <span>Quantity</span>
+            <span>Total</span>
+            <span></span>
+          </div>
+
+          <div id="cart-items-list">
+            {% for item in cart.items %}
+              <div class="cart-item-row">
+                <div class="cart-item-info">
+                  <img
+                    src="{{ item.image | image_url: width: 200 }}"
+                    alt="{{ item.title }}"
+                    class="cart-item-img"
+                  >
+                  <div>
+                    <h3 class="cart-item-title">{{ item.product.title }}</h3>
+                    {% unless item.variant.title == 'Default Title' %}
+                      <p class="cart-item-meta">{{ item.variant.title }}</p>
+                    {% endunless %}
+                  </div>
+                </div>
+                <div class="cart-item-price">{{ item.price | money }}</div>
+                <div class="cart-qty-control">
+                  <input
+                    type="number"
+                    name="updates[{{ item.key }}]"
+                    value="{{ item.quantity }}"
+                    min="0"
+                    class="cart-qty-num"
+                  >
+                </div>
+                <div class="cart-item-total">{{ item.final_line_price | money }}</div>
+                <div>
+                  <a
+                    href="{{ routes.cart_change_url }}?id={{ item.key }}&quantity=0"
+                    class="cart-btn-remove"
+                    title="Remove item"
+                    >&times;</a
+                  >
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- RIGHT: SUMMARY & CHECKOUT -->
+        <div class="cart-summary-card">
+          <h2 class="cart-summary-title">Order Summary</h2>
+
+          <div class="cart-summary-row">
+            <span>Subtotal</span>
+            <span>{{ cart.items_subtotal_price | money }}</span>
+          </div>
+
+          <div class="cart-summary-row">
+            <span>Estimated Shipping</span>
+            <span>Calculated at checkout</span>
+          </div>
+
+          <div class="cart-summary-row">
+            <span>Tax</span>
+            <span>Calculated at checkout</span>
+          </div>
+
+          {% if cart.total_discount > 0 %}
+            <div class="cart-summary-row" style="color: var(--cart-success);">
+              <span>Discount</span>
+              <span>-{{ cart.total_discount | money }}</span>
+            </div>
+          {% endif %}
+
+          <!-- PROMO CODE -->
+          <div class="cart-promo-box">
+            <input type="text" id="cart-promo-input" class="cart-promo-input" placeholder="Promo code">
+            <button type="button" class="cart-btn-apply" onclick="applyPromoCode()">Apply</button>
+          </div>
+
+          <div class="cart-summary-row cart-total-row">
+            <span>Total</span>
+            <span>{{ cart.total_price | money }}</span>
+          </div>
+
+          <button type="submit" name="update" class="cart-btn-apply" style="width: 100%; margin-bottom: 0.75rem;">
+            Update Cart
+          </button>
+          <button type="submit" name="checkout" class="cart-btn-checkout">Proceed to Checkout</button>
+          <a href="/collections/all" class="cart-continue-link">&larr; Continue Shopping</a>
+        </div>
+      </div>
+    {% endform %}
+  {% endif %}
+
+  <!-- INTERACTIVITY SCRIPT -->
+  <script>
+    // Applies a real Shopify discount code via redirect; invalid codes are silently ignored by Shopify.
+    function applyPromoCode() {
+      const code = document.getElementById('cart-promo-input').value.trim();
+      if (code) {
+        window.location.href = '/discount/' + encodeURIComponent(code) + '?redirect=/cart';
+      }
+    }
+  </script>
+</section>

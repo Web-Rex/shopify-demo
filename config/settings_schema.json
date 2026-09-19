@@ -1,0 +1,10 @@
+[
+  {
+    "name": "theme_info",
+    "theme_version": "1.0.0",
+    "theme_name": "Test-Theme",
+    "theme_author": "Victor Christopher",
+    "theme_documentation_url": "https://shopify.dev/docs",
+    "theme_support_url": "https://shopify.dev/docs"
+  }
+]

@@ -1,0 +1,94 @@
+<!-- LEFT SIDE: CONTACT DETAILS -->
+<div class="ct-info-container">
+  {% for block in section.blocks %}
+    <div class="ct-info-card" {{ block.shopify_attributes }}>
+      <div class="ct-info-icon">{{ block.settings.icon }}</div>
+      <div class="ct-info-details">
+        <h3>{{ block.settings.heading }}</h3>
+        <p>
+          {{ block.settings.line_one }}
+          {% if block.settings.line_two != blank -%}
+            <br>
+            {{ block.settings.line_two -}}
+          {%- endif %}
+        </p>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+{% schema %}
+{
+  "name": "Contact Info",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "contact_info",
+      "name": "Contact Info",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Headquarters"
+        },
+        {
+          "type": "text",
+          "id": "line_one",
+          "label": "Line 1"
+        },
+        {
+          "type": "text",
+          "id": "line_two",
+          "label": "Line 2"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "default": {
+    "blocks": [
+      {
+        "type": "contact_info",
+        "settings": {
+          "icon": "📍",
+          "heading": "Headquarters",
+          "line_one": "123 Commerce Way, Suite 400",
+          "line_two": "San Francisco, CA 94105"
+        }
+      },
+      {
+        "type": "contact_info",
+        "settings": {
+          "icon": "✉️",
+          "heading": "Email Us",
+          "line_one": "support@modernshop.com",
+          "line_two": "sales@modernshop.com"
+        }
+      },
+      {
+        "type": "contact_info",
+        "settings": {
+          "icon": "📞",
+          "heading": "Call Us",
+          "line_one": "+1 (800) 555-0199",
+          "line_two": "Mon - Fri, 9am - 6pm EST"
+        }
+      },
+      {
+        "type": "contact_info",
+        "settings": {
+          "icon": "💬",
+          "heading": "Live Chat",
+          "line_one": "Available 24/7 in the bottom-right corner of your screen."
+        }
+      }
+    ]
+  }
+}
+{% endschema %}

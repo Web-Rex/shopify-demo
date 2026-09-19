@@ -1,0 +1,78 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+<main class="products-section" id="products">
+  <h2 class="section-title">{{ section.settings.heading }}</h2>
+
+  <div class="product-carousel">
+    <div class="swiper product-swiper-{{ section.id }}">
+      <div class="swiper-wrapper">
+        {% for product in collections.all.products limit: section.settings.products_to_show %}
+          <div class="swiper-slide">
+            <div class="product-card">
+              <img
+                class="product-image"
+                src="{{ product.featured_image | image_url: width: 500 }}"
+                alt="{{ product.featured_image.alt | default: product.title }}"
+              >
+              <div class="product-info">
+                <h3 class="product-title">{{ product.title }}</h3>
+                <div class="product-price">{{ product.price | money }}</div>
+
+                <a href="{{ product.url }}" class="card-link" style="width: 100%;">View More</a>
+              </div>
+            </div>
+          </div>
+        {%- endfor %}
+      </div>
+    </div>
+
+    <button type="button" class="carousel-arrow carousel-arrow-prev product-swiper-{{ section.id }}-prev" aria-label="Previous">&#10094;</button>
+    <button type="button" class="carousel-arrow carousel-arrow-next product-swiper-{{ section.id }}-next" aria-label="Next">&#10095;</button>
+
+    <div class="swiper-pagination product-swiper-{{ section.id }}-pagination"></div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+  new Swiper('.product-swiper-{{ section.id }}', {
+    slidesPerView: 1.15,
+    spaceBetween: 20,
+    loop: true,
+    pagination: {
+      el: '.product-swiper-{{ section.id }}-pagination',
+      clickable: true,
+    },
+    navigation: {
+      nextEl: '.product-swiper-{{ section.id }}-next',
+      prevEl: '.product-swiper-{{ section.id }}-prev',
+    },
+    breakpoints: {
+      640: { slidesPerView: 2.2 },
+      1024: { slidesPerView: 4 },
+    },
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Home Products",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Featured Products"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products to show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 8
+    }
+  ]
+}
+{% endschema %}

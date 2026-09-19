@@ -1,0 +1,127 @@
+<section>
+  {% section 'collection-header' %}
+
+  <!-- MAIN CATALOG CONTENT -->
+  <div class="ps-catalog-wrapper">
+    <!-- SIDEBAR FILTERS -->
+    <aside class="ps-filter-panel">
+      <form id="ps-filter-form" method="get" action="{{ collection.url }}">
+        {% for filter in collection.filters %}
+          <div class="ps-filter-block">
+            <h3 class="ps-filter-heading">{{ filter.label }}</h3>
+
+            {% if filter.type == 'price_range' %}
+              <div class="ps-filter-item">
+                <label class="ps-filter-label">
+                  Min
+                  <input
+                    type="number"
+                    name="{{ filter.min_value.param_name }}"
+                    value="{{ filter.min_value.value }}"
+                  >
+                </label>
+                <label class="ps-filter-label">
+                  Max
+                  <input
+                    type="number"
+                    name="{{ filter.max_value.param_name }}"
+                    value="{{ filter.max_value.value }}"
+                  >
+                </label>
+              </div>
+            {% else %}
+              <ul class="ps-filter-list">
+                {% for value in filter.values %}
+                  <li class="ps-filter-item">
+                    <label class="ps-filter-label">
+                      <input
+                        type="checkbox"
+                        name="{{ value.param_name }}"
+                        value="{{ value.value }}"
+                        onchange="this.form.submit()"
+                        {% if value.active %}
+                          checked
+                        {% endif %}
+                      >
+                      {{ value.label }} ({{ value.count }})
+                    </label>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+        {% endfor %}
+
+        <button type="submit" class="ps-filter-apply">Apply</button>
+      </form>
+    </aside>
+
+    <!-- MAIN PRODUCT DISPLAY -->
+    <main>
+      <!-- TOOLBAR -->
+      <div class="ps-toolbar">
+        <div class="ps-search-wrapper">
+          <input type="text" class="ps-search-input" placeholder="Search products...">
+        </div>
+        <div>
+          <select class="ps-sort-select" name="sort_by" form="ps-filter-form" onchange="this.form.submit()">
+            {% for option in collection.sort_options %}
+              <option
+                value="{{ option.value }}"
+                {% if option.value == collection.sort_by %}
+                  selected
+                {% endif %}
+              >
+                {{ option.name }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      {% paginate collection.products by 12 %}
+        <!-- PRODUCT GRID -->
+        <div class="ps-grid-layout">
+          <!-- Map Product -->
+          {% for product in collection.products %}
+            <div class="product-card">
+              <img
+                class="product-image"
+                src="{{ product.featured_image | image_url: width: 500 }}"
+                alt="{{ product.featured_image.alt | default: product.title }}"
+              >
+              <div class="product-info">
+                <h3 class="product-title">{{ product.title }}</h3>
+                <div class="product-price">{{ product.price | money }}</div>
+
+                <a href="{{ product.url }}" class="card-link" style="width: 100%;">View More</a>
+              </div>
+            </div>
+          {%- endfor %}
+        </div>
+
+        <!-- PAGINATION -->
+        {% if paginate.pages > 1 %}
+          <div class="ps-pagination-bar">
+            {% if paginate.previous %}
+              <a href="{{ paginate.previous.url }}" class="ps-page-num">&laquo;</a>
+            {% endif %}
+
+            {% for part in paginate.parts %}
+              {% if part.is_link %}
+                <a href="{{ part.url }}" class="ps-page-num">{{ part.title }}</a>
+              {% else %}
+                <button class="ps-page-num ps-page-active">{{ part.title }}</button>
+              {% endif %}
+            {% endfor %}
+
+            {% if paginate.next %}
+              <a href="{{ paginate.next.url }}" class="ps-page-num">&raquo;</a>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endpaginate %}
+    </main>
+  </div>
+
+</section>

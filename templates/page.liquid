@@ -1,0 +1,35 @@
+<section>
+  {% if page.handle == 'about' %}
+    {% comment %} ---------------------------------------- {% endcomment %}
+    {% comment %} ---------------- [ About content here ]  {% endcomment %}
+    <!-- [ About content here ] -->
+    <!-- HERO HEADER -->
+    {% section 'about-hero' %}
+
+    <!-- STORY SECTION -->
+    {% section 'about-details' %}
+
+    <!-- STATS SECTION -->
+    {% section 'about-stats' %}
+
+    <!-- TEAM SECTION -->
+    {% section 'about-teams' %}
+  {% elsif page.handle == 'contact' %}
+    {% comment %} ---------------------------------------- {% endcomment %}
+    {% comment %} --------------- [ Contact content here ] {% endcomment %}
+    <!-- PAGE HEADER -->
+    {% section 'contact-header' %}
+
+    <!-- MAIN CONTACT CONTENT -->
+    <div class="ct-main-wrapper">
+      <!-- LEFT SIDE: CONTACT DETAILS -->
+      {% section 'contact-content' %}
+
+      <!-- RIGHT SIDE: CONTACT FORM -->
+      {% section 'contact-form' %}
+    </div>
+
+    <!-- LOCATION MAP PLACEHOLDER -->
+    {% section 'contact-map' %}
+  {% endif %}
+</section>

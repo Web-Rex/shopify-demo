@@ -1,0 +1,44 @@
+<section class="ab-story-container">
+  <img
+    src="{{ section.settings.image_url }}"
+    alt="{{ section.settings.image_url.label }}"
+    class="ab-story-image"
+  >
+  <div class="ab-story-content">
+    <h2>{{ section.settings.subheading }}</h2>
+    <p>{{ section.settings.paragraph_one }}</p>
+    <p>{{ section.settings.paragraph_two }}</p>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About Hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "image_url",
+      "label": "Image-Url",
+      "default": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=700&q=80"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Our Journey"
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_one",
+      "label": "paragraph",
+      "default": "Founded in 2024, ModernShop began with a simple mission: to make premium lifestyle and tech products accessible without compromising on quality or design."
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_two",
+      "label": "paragraph",
+      "default": "What started as a small passion project has grown into a global marketplace trusted by thousands of customers daily. We carefully curate every item in our catalog to ensure it meets our strict standards of excellence."
+    }
+  ]
+}
+{% endschema %}

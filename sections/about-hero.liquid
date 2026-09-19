@@ -1,0 +1,24 @@
+<header class="ab-hero-section">
+  <h1 class="ab-hero-title">{{ section.settings.heading }}</h1>
+  <p class="ab-hero-subtitle">{{ section.settings.subheading }}</p>
+</header>
+
+{% schema %}
+{
+  "name": "About Hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "We Redefine Modern Commerce"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Bringing top-quality products, unmatched customer care, and seamless digital shopping right to your doorstep."
+    }
+  ]
+}
+{% endschema %}

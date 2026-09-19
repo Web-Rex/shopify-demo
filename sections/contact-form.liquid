@@ -1,0 +1,163 @@
+<div class="ct-form-card">
+  <h2 class="ct-form-title">{{ section.settings.heading }}</h2>
+
+  {% form 'contact' %}
+    {% if form.posted_successfully? %}
+      <div class="ct-success-alert">{{ section.settings.success_message }}</div>
+    {% endif %}
+
+    {% if form.errors %}
+      <div class="ct-error-alert">
+        {{ form.errors | default_errors }}
+      </div>
+    {% endif %}
+
+    <div class="ct-form-row">
+      <div class="ct-form-group">
+        <label class="ct-form-label" for="ct-name">{{ section.settings.name_label }}</label>
+        <input
+          type="text"
+          id="ct-name"
+          name="contact[name]"
+          class="ct-form-input"
+          placeholder="{{ section.settings.name_placeholder }}"
+          value="{{ form.name }}"
+          required
+        >
+      </div>
+      <div class="ct-form-group">
+        <label class="ct-form-label" for="ct-email">{{ section.settings.email_label }}</label>
+        <input
+          type="email"
+          id="ct-email"
+          name="contact[email]"
+          class="ct-form-input"
+          placeholder="{{ section.settings.email_placeholder }}"
+          value="{{ form.email }}"
+          required
+        >
+      </div>
+    </div>
+
+    <div class="ct-form-group">
+      <label class="ct-form-label" for="ct-subject">{{ section.settings.subject_label }}</label>
+      <select id="ct-subject" name="contact[subject]" class="ct-form-select" required>
+        <option value="">Select a topic...</option>
+        {% for block in section.blocks %}
+          <option value="{{ block.settings.value }}" {{ block.shopify_attributes }}>{{ block.settings.label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="ct-form-group">
+      <label class="ct-form-label" for="ct-message">{{ section.settings.message_label }}</label>
+      <textarea
+        id="ct-message"
+        name="contact[body]"
+        class="ct-form-textarea"
+        placeholder="{{ section.settings.message_placeholder }}"
+        required
+      >{{ form.body }}</textarea>
+    </div>
+
+    <button type="submit" class="ct-btn-submit">{{ section.settings.button_label }}</button>
+  {% endform %}
+</div>
+
+{% schema %}
+{
+  "name": "Contact Form",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Send Us a Message"
+    },
+    {
+      "type": "text",
+      "id": "name_label",
+      "label": "Name field label",
+      "default": "Full Name"
+    },
+    {
+      "type": "text",
+      "id": "name_placeholder",
+      "label": "Name field placeholder",
+      "default": "John Doe"
+    },
+    {
+      "type": "text",
+      "id": "email_label",
+      "label": "Email field label",
+      "default": "Email Address"
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "label": "Email field placeholder",
+      "default": "john@example.com"
+    },
+    {
+      "type": "text",
+      "id": "subject_label",
+      "label": "Subject field label",
+      "default": "Subject"
+    },
+    {
+      "type": "text",
+      "id": "message_label",
+      "label": "Message field label",
+      "default": "Message"
+    },
+    {
+      "type": "text",
+      "id": "message_placeholder",
+      "label": "Message field placeholder",
+      "default": "Write your message here..."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Submit button text",
+      "default": "Send Message"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "✓ Thank you! Your message has been sent successfully."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "subject_option",
+      "name": "Subject Option",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Option text"
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Option value"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "default": {
+    "settings": {
+      "heading": "Send Us a Message"
+    },
+    "blocks": [
+      { "type": "subject_option", "settings": { "label": "Order Inquiry / Tracking", "value": "order" } },
+      { "type": "subject_option", "settings": { "label": "Returns & Refunds", "value": "returns" } },
+      { "type": "subject_option", "settings": { "label": "Product Question", "value": "product" } },
+      { "type": "subject_option", "settings": { "label": "General Feedback", "value": "other" } }
+    ]
+  }
+}
+{% endschema %}

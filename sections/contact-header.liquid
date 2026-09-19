@@ -1,0 +1,25 @@
+<!-- LEFT SIDE: CONTACT DETAILS -->
+<header class="ct-page-banner">
+  <h1 class="ct-banner-title">{{ section.settings.heading }}</h1>
+  <p class="ct-banner-subtitle">{{ section.settings.subheading }}</p>
+</header>
+
+{% schema %}
+{
+  "name": "Contact Info",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Get in Touch"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Have questions or feedback? We’d love to hear from you."
+    }
+  ]
+}
+{% endschema %}

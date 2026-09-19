@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {{ content_for_header }}
+    {{ 'theme.css' | asset_url | stylesheet_tag }}
+
+    {% assign path_ = request.path %}
+    {% assign all = '/collections/all' %}
+    {% assign head_phone = '/collections/head-phone' %}
+  </head>
+
+  <body>
+    <!-- NAVBAR -->
+    <nav class="ps-navbar">
+      <a href="/" class="ps-brand-logo">ModernShop</a>
+      <ul class="ps-nav-menu">
+        <li><a href="/" class="ps-nav-link {% if request.page_type == 'index' %} ps-active{% endif %}">Home</a></li>
+
+        <li>
+          <a
+            href="{{ head_phone }}"
+            class="ps-nav-link {% if path_ == head_phone %} ps-active{% endif %}"
+            >Head Phones</a
+          >
+        </li>
+
+        <li>
+          <a
+            href="{{ all }}"
+            class="ps-nav-link {% if path_ == all %} ps-active{% endif %}"
+            >Products</a
+          >
+        </li>
+
+        <li>
+          <a href="/pages/about" class="ps-nav-link {% if path_ == '/pages/about' %} ps-active{% endif %}">About</a>
+        </li>
+
+        <li>
+          <a href="/pages/contact" class="ps-nav-link {% if path_ == '/pages/contact' %} ps-active{% endif %}"
+            >Contact</a
+          >
+        </li>
+      </ul>
+      <a href="/cart" class="ps-cart-trigger">
+        🛒 <span class="ps-cart-badge" id="ps-cart-count">{{ cart.item_count }}</span>
+      </a>
+    </nav>
+
+    {{ content_for_layout }}
+
+    <!-- FOOTER -->
+    <footer class="ps-footer">
+      <p class="ps-footer-text">&copy; 2026 ModernShop. All rights reserved.</p>
+    </footer>
+  </body>
+</html>

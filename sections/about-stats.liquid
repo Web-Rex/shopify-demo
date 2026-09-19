@@ -1,0 +1,76 @@
+<section class="ab-stats-section">
+  <div class="ab-stats-grid">
+    <div>
+      <div class="ab-stat-number">{{ section.settings.heading_one }}</div>
+      <div class="ab-stat-label">{{ section.settings.paragraph_one }}</div>
+    </div>
+    <div>
+      <div class="ab-stat-number">{{ section.settings.heading_two }}</div>
+      <div class="ab-stat-label">{{ section.settings.paragraph_two }}</div>
+    </div>
+    <div>
+      <div class="ab-stat-number">{{ section.settings.heading_three }}</div>
+      <div class="ab-stat-label">{{ section.settings.paragraph_three }}</div>
+    </div>
+    <div>
+      <div class="ab-stat-number">{{ section.settings.heading_four }}</div>
+      <div class="ab-stat-label">{{ section.settings.paragraph_four }}</div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About Hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading_one",
+      "label": "Heading",
+      "default": "50K+"
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_one",
+      "label": "Subheading",
+      "default": "Happy Customers"
+    },
+    {
+      "type": "text",
+      "id": "heading_two",
+      "label": "Heading",
+      "default": "120+"
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_two",
+      "label": "Subheading",
+      "default": "Curated Brands"
+    },
+    {
+      "type": "text",
+      "id": "heading_three",
+      "label": "Heading",
+      "default": "99.8%"
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_three",
+      "label": "Subheading",
+      "default": "On-Time Delivery"
+    },
+    {
+      "type": "text",
+      "id": "heading_four",
+      "label": "Heading",
+      "default": "24/7"
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_four",
+      "label": "Subheading",
+      "default": "Customer Support"
+    }
+  ]
+}
+{% endschema %}

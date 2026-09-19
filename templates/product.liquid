@@ -1,0 +1,155 @@
+<section>
+  <!-- BREADCRUMB NAVIGATION -->
+  <div class="pd-breadcrumb-container">
+    <a href="/">Home</a> &gt;
+    {% if product.collections.first %}
+      <a href="{{ product.collections.first.url }}">{{ product.collections.first.title }}</a> &gt;
+    {% endif %}
+    {{ product.title }}
+  </div>
+
+  <!-- MAIN PRODUCT SECTION -->
+  <div class="pd-product-wrapper">
+    <!-- LEFT COLUMN: IMAGE GALLERY -->
+    <div class="pd-gallery-container">
+      <div class="pd-main-image-box">
+        <img
+          src="{{ product.featured_image | image_url: width: 500 }}"
+          id="pd-current-img"
+          alt="{{ product.featured_image.alt | default: product.title }}"
+          class="pd-main-image"
+        >
+      </div>
+      <div class="pd-thumbnails-list">
+        {% for image in product.images %}
+          <div
+            class="pd-thumb-item{% if image.id == product.featured_image.id %} pd-thumb-active{% endif %}"
+            onclick="switchImage('{{ image | image_url: width: 700 }}', this)"
+          >
+            <img src="{{ image | image_url: width: 200 }}" alt="{{ image.alt | default: product.title }}">
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: PRODUCT DETAILS -->
+    <div class="pd-details-container">
+      <span class="pd-stock-badge">
+        {%- if product.available %}In Stock{% else %}Out of Stock{% endif -%}
+      </span>
+      <h1 class="pd-item-title">{{ product.title }}</h1>
+
+      {% comment %}
+        <div class="pd-rating-bar">
+          <span class="pd-stars">★★★★★</span>
+          <span class="pd-rating-text">(4.8 / 5 based on 128 reviews)</span>
+        </div>
+      {% endcomment %}
+
+      <div class="pd-price-row">
+        <span class="pd-current-price">{{ product.price | money }}</span>
+        {% if product.compare_at_price > product.price %}
+          <span class="pd-old-price">{{ product.compare_at_price | money }}</span>
+        {% endif %}
+      </div>
+
+      <p class="pd-short-desc">
+        {{ product.description | strip_html | truncate: 180 }}
+      </p>
+
+      {% form 'product', product %}
+        <div class="pd-actions-row">
+          <div class="pd-qty-selector">
+            <button type="button" class="pd-qty-btn" onclick="adjustQuantity(-1)">-</button>
+            <input type="number" name="quantity" id="pd-qty-value" class="pd-qty-val" value="1" min="1">
+            <button type="button" class="pd-qty-btn" onclick="adjustQuantity(1)">+</button>
+          </div>
+
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+
+          <button type="submit" class="pd-btn-add-cart" {% unless product.available %}disabled{% endunless %}>
+            {% if product.available %}Add to Cart{% else %}Sold Out{% endif %}
+          </button>
+        </div>
+      {% endform %}
+
+      <ul class="pd-meta-list">
+        <li><strong>SKU:</strong> {{ product.selected_or_first_available_variant.sku }}</li>
+        <li><strong>Category:</strong> {{ product.type }}</li>
+        <li><strong>Shipping:</strong> Free standard shipping on orders over $50</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- TABS SECTION -->
+  <div class="pd-tabs-wrapper">
+    <div class="pd-tabs-header">
+      <button class="pd-tab-btn pd-tab-active" onclick="switchTab('desc', this)">Description</button>
+      <button class="pd-tab-btn" onclick="switchTab('specs', this)">Specifications</button>
+      <button class="pd-tab-btn" onclick="switchTab('reviews', this)">
+        Reviews{% if product.metafields.custom.review_count %} ({{ product.metafields.custom.review_count }}){% endif %}
+      </button>
+    </div>
+
+    <div id="pd-tab-desc" class="pd-tab-panel pd-panel-active">
+      <p>{{ product.description }}</p>
+    </div>
+
+    <div id="pd-tab-specs" class="pd-tab-panel">
+      {% if product.metafields.custom.specs.value.size > 0 %}
+        <ul style="padding-left: 1.2rem; color: var(--pd-text-muted);">
+          {% for spec in product.metafields.custom.specs.value %}
+            <li>{{ spec }}</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No specifications available.</p>
+      {% endif %}
+    </div>
+
+    <div id="pd-tab-reviews" class="pd-tab-panel">
+      <p>No reviews yet.</p>
+    </div>
+  </div>
+
+  {% section 'product-related' %}
+
+  <!-- INTERACTIVITY SCRIPT -->
+  <script>
+    let itemQuantity = 1;
+    let pdCartCount = 0;
+
+    // Image Gallery Switcher
+    function switchImage(src, thumbElement) {
+      document.getElementById('pd-current-img').src = src;
+      document.querySelectorAll('.pd-thumb-item').forEach((el) => el.classList.remove('pd-thumb-active'));
+      thumbElement.classList.add('pd-thumb-active');
+    }
+
+    // Quantity Selector
+    function adjustQuantity(delta) {
+      itemQuantity = Math.max(1, itemQuantity + delta);
+      document.getElementById('pd-qty-value').innerText = itemQuantity;
+    }
+
+    // Cart Action
+    function addSelectedToCart() {
+      pdCartCount += itemQuantity;
+      document.getElementById('pd-cart-count').innerText = pdCartCount;
+      alert(`Added ${itemQuantity} item(s) to your cart!`);
+    }
+
+    // Tabs Switcher
+    function switchTab(tabName, btnElement) {
+      document.querySelectorAll('.pd-tab-panel').forEach((panel) => panel.classList.remove('pd-panel-active'));
+      document.querySelectorAll('.pd-tab-btn').forEach((btn) => btn.classList.remove('pd-tab-active'));
+
+      document.getElementById('pd-tab-' + tabName).classList.add('pd-panel-active');
+      btnElement.classList.add('pd-tab-active');
+    }
+  </script>
+</section>
+
+
+
+
